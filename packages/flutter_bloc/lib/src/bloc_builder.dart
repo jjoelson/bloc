@@ -127,25 +127,10 @@ class _BlocBuilderBaseState<C extends Cubit<S>, S>
   S _state;
 
   @override
-  void initState() {
-    super.initState();
-    _cubit = widget.cubit ?? context.read<C>();
-    _state = _cubit.state;
-  }
-
-  @override
-  void didUpdateWidget(BlocBuilderBase<C, S> oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    final oldCubit = oldWidget.cubit ?? context.read<C>();
-    final currentCubit = widget.cubit ?? oldCubit;
-    if (oldCubit != currentCubit) {
-      _cubit = currentCubit;
-      _state = _cubit.state;
-    }
-  }
-
-  @override
   Widget build(BuildContext context) {
+    _cubit = widget.cubit ?? context.watch<C>();
+    _state = _cubit.state;
+
     return BlocListener<C, S>(
       cubit: _cubit,
       listenWhen: widget.buildWhen,
